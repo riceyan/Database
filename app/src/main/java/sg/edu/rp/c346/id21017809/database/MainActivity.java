@@ -32,11 +32,6 @@ public class MainActivity extends AppCompatActivity {
         etDate = findViewById(R.id.etDate);
         lvResults = findViewById(R.id.lvResults);
 
-        ArrayList<String> alResults = new ArrayList<String>();
-
-        ArrayAdapter aaResults = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alResults);
-        lvResults.setAdapter(aaResults);
-
         btnInsert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -46,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Insert a task
                 db.insertTask("Submit RJ", "25 Apr 2021");
-
-                String task = etTask.getText().toString();
-                String date = etDate.getText().toString();
-
-                //alColours.add(colour);
-                int pos = Integer.parseInt(etTask.getText().toString());
-                alResults.add(pos, task);
-                aaResults.notifyDataSetChanged();
             }
         });
         btnGetTasks.setOnClickListener(new View.OnClickListener(){
@@ -65,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // Insert a task
                 ArrayList<String> data = db.getTaskContent();
-                db.close();
+                ArrayAdapter aaResults = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, data);
+                lvResults.setAdapter(aaResults);
 
                 String txt = "";
                 for (int i = 0; i < data.size(); i++) {
